@@ -8,8 +8,13 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(tsan_sample SHARED native-lib.cpp)
 
-target_compile_options(tsan_sample PUBLIC -fsanitize=thread)
-set_target_properties(tsan_sample PROPERTIES LINK_FLAGS -fsanitize=thread)
+target_compile_options(tsan_sample PRIVATE -fsanitize=thread)
+
+target_link_options(tsan_sample PRIVATE
+    -fsanitize=thread
+    -Wl,-z,max-page-size=16384
+    -Wl,-z,common-page-size=16384
+)
 
 find_library(log-lib log)
 target_link_libraries(tsan_sample ${log-lib})

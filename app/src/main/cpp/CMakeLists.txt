@@ -26,3 +26,8 @@ set_target_properties(tsan_loader
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/../../../build/loader/resources/lib/arm64-v8a"
 )
+
+target_link_options(tsan_loader PRIVATE
+    -Wl,-z,max-page-size=16384
+    -Wl,-z,common-page-size=16384
+)
